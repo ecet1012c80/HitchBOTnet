@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Latitude:
+        <dd><input type=text size=30 name=latitude>
+		<dt>Longitude:
+        <dd><input type=text size=30 name=longitude>
+		<dt>GPS Accuracy:
+        <dd><input type=text size=30 name=gpsaccuracy>
+		<dt>Battery:
+        <dd><input type=text size=30 name=battery>
+		<dt>Temperature:
+        <dd><input type=text size=30 name=temperature>
+		<dt>Lastwake:
+        <dd><input type=text size=30 name=lastwake>
+        <dd><input type=submit value=Share>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <p>
+	<li><h2>{{ entry.timestamp }}</h2>
+	<table>
+		<tr><td>Latitude</td>
+			<td>{{ entry.latitude }}&deg;</td></tr>
+		<tr><td>Longitude</td>
+			<td>{{ entry.longitude }}&deg;</td></tr>
+		<tr><td>GPS Accuracy</td>
+			<td>{{ entry.gpsaccuracy }}m</td></tr>
+		<tr><td>Battery</td>
+			<td>{{ entry.battery }}%</td></tr>
+		<tr><td>Temperature</td>
+			<td>{{ entry.temperature}}&deg;C</td></tr>
+		<tr><td>Last wake</td>
+			<td>{{ entry.lastwake }}</td></tr>
+	</table>
+	</p>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
