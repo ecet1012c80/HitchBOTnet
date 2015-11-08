@@ -1,12 +1,16 @@
 <!doctype html>
 <title>HitchBOTnet</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
 <div class=page>
   <h1>HitchBOTnet</h1>
   <div class=metanav>
   {% if not session.logged_in %}
     <a href="{{ url_for('login') }}">log in</a>
   {% else %}
+  	<a href="{{ url_for('map_view') }}">map</a> - 
+	<a href="{{ url_for('show_entries') }}">entries</a> - 
     <a href="{{ url_for('logout') }}">log out</a>
   {% endif %}
   </div>

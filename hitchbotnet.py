@@ -1,7 +1,7 @@
 # all the imports
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
-	abort, render_template, flash
+	abort, render_template, flash, json, jsonify
 from contextlib import closing
 
 # configuration
@@ -41,12 +41,30 @@ def teardown_request(exception):
 
 # default view /
 @app.route('/')
+def map_view():
+	cur = g.db.execute('select timestamp, latitude, longitude, gpsaccuracy from entries order by id desc')
+	entries = [dict(timestamp=row[0], latitude=row[1], longitude=row[2], gpsaccuracy=row[3]) for row in cur.fetchall()]
+	return render_template('map.html', entries=entries)
+
+
+# map JSON points
+@app.route('/_mappoints.json')
+def map_points():
+	cur = g.db.execute('select timestamp, latitude, longitude from entries order by id desc')
+	entries = [dict(information=row[0], latitude=row[1], longitude=row[2]) for row in cur.fetchall()]
+	return jsonify(markers=entries)
+
+
+# entries view
+@app.route('/entries')
 def show_entries():
+	if not session.get('logged_in'):
+		abort(401)
 	cur = g.db.execute('select timestamp, latitude, longitude, gpsaccuracy, battery, temperature, lastwake from entries order by id desc')
 	entries = [dict(timestamp=row[0], latitude=row[1], longitude=row[2], gpsaccuracy=row[3],
 				battery=row[4], temperature=row[5], lastwake=row[6]) for row in cur.fetchall()]
 	return render_template('show_entries.html', entries=entries)
-
+	
 
 # /checkin
 @app.route('/checkin', methods=['POST'])
@@ -87,5 +105,7 @@ def logout():
 
 if __name__ == '__main__':
 	app.run()
+	# DO NOT RUN WITH THIS IN DEBUG MODE
+	#app.run(host='0.0.0.0')
 	
 	

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Latitude:
+        <dd><input type=text size=30 name=latitude>
+		<dt>Longitude:
+        <dd><input type=text size=30 name=longitude>
+		<dt>GPS Accuracy:
+        <dd><input type=text size=30 name=gpsaccuracy>
+		<dt>Battery:
+        <dd><input type=text size=30 name=battery>
+		<dt>Temperature:
+        <dd><input type=text size=30 name=temperature>
+		<dt>Lastwake:
+        <dd><input type=text size=30 name=lastwake>
+        <dd><input type=submit value=Share>
+      </dl>
+    </form>
+  {% endif %}
+{% endblock %}

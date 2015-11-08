@@ -8,6 +8,10 @@ td {
 	padding-right: 5px;
 }
 
+#map {
+	height: 700px;
+	background-color: #CCC;
+}
 
 .page           { margin: 2em auto; width: 40em; border: 5px solid #ccc;
                   padding: 0.8em; background: white; }
