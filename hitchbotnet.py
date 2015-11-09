@@ -91,7 +91,7 @@ def login():
 		else:
 			session['logged_in'] = True
 			flash('You were logged in')
-			return redirect(url_for('show_entries'))
+			return redirect(url_for('map_view'))
 	return render_template('login.html', error=error)
 
 
@@ -100,12 +100,12 @@ def login():
 def logout():
 	session.pop('logged_in', None)
 	flash('You were logged out')
-	return redirect(url_for('show_entries'))
+	return redirect(url_for('map_view'))
 
 
 if __name__ == '__main__':
-	app.run()
+	#app.run()
 	# DO NOT RUN WITH THIS IN DEBUG MODE
-	#app.run(host='0.0.0.0')
+	app.run(host='0.0.0.0')
 	
 	

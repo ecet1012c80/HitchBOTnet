@@ -15,13 +15,13 @@
 	{% endif %}
 	
 	<div id="map"></div>
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<link rel="stylesheet" type="text/css" href="static/leaflet.css" />
+	<script type="text/javascript" src="static/leaflet.js"></script>
 	<script type="text/javascript" src="static/leafletembed.js"></script>
 	
 	<script>
 		initmap();
-		map.setView(new L.LatLng( {{entries[0].latitude}}, {{entries[0].longitude}} ),12);
+		map.setView(new L.LatLng( {{entries[0].latitude}}, {{entries[0].longitude}} ),9);
 		
 		{% for entry in entries %}
 			var marker = L.marker([ {{entry.latitude}}, {{entry.longitude}} ]).addTo(map);
