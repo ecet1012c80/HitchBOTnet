@@ -3,6 +3,8 @@
 	{% if session.logged_in %}
     <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
       <dl>
+		<dt>Recieved:
+        <dd><input type=text size=30 name=recieved>
         <dt>Latitude:
         <dd><input type=text size=30 name=latitude>
 		<dt>Longitude:
@@ -25,6 +27,8 @@
     <p>
 	<li><h2>{{ entry.timestamp }}</h2>
 	<table>
+		<tr><td>Recieved</td>
+			<td>{{ entry.recieved }}</td></tr>
 		<tr><td>Latitude</td>
 			<td>{{ entry.latitude }}&deg;</td></tr>
 		<tr><td>Longitude</td>

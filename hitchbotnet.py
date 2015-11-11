@@ -6,7 +6,7 @@ from contextlib import closing
 
 # configuration
 DATABASE = '/tmp/hitchbotnet.db'
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -60,9 +60,9 @@ def map_points():
 def show_entries():
 	if not session.get('logged_in'):
 		abort(401)
-	cur = g.db.execute('select timestamp, latitude, longitude, gpsaccuracy, battery, temperature, lastwake from entries order by id desc')
+	cur = g.db.execute('select timestamp, latitude, longitude, gpsaccuracy, battery, temperature, lastwake, recieved from entries order by id desc')
 	entries = [dict(timestamp=row[0], latitude=row[1], longitude=row[2], gpsaccuracy=row[3],
-				battery=row[4], temperature=row[5], lastwake=row[6]) for row in cur.fetchall()]
+				battery=row[4], temperature=row[5], lastwake=row[6], recieved=row[7]) for row in cur.fetchall()]
 	return render_template('show_entries.html', entries=entries)
 	
 
@@ -72,8 +72,8 @@ def add_entry():
 	if not session.get('logged_in'):
 		abort(401)
 	#TODO: Authenciation for HitchDroid client
-	g.db.execute('insert into entries (latitude, longitude, gpsaccuracy, battery, temperature, lastwake) values (?, ?, ?, ?, ?, ?)',
-				[request.form['latitude'], request.form['longitude'], request.form['gpsaccuracy'], request.form['battery'], request.form['temperature'], request.form['lastwake']])
+	g.db.execute('insert into entries (timestamp, latitude, longitude, gpsaccuracy, battery, temperature, lastwake) values (?, ?, ?, ?, ?, ?, ?)',
+				[request.form['timestamp'], request.form['latitude'], request.form['longitude'], request.form['gpsaccuracy'], request.form['battery'], request.form['temperature'], request.form['lastwake']])
 	g.db.commit()
 	flash('New entry was successfully posted')
 	return redirect(url_for('show_entries'))
@@ -104,8 +104,8 @@ def logout():
 
 
 if __name__ == '__main__':
-	#app.run()
+	app.run()
 	# DO NOT RUN WITH THIS IN DEBUG MODE
-	app.run(host='0.0.0.0')
+	#app.run(host='0.0.0.0')
 	
 	
